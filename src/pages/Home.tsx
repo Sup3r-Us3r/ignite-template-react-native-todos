@@ -10,14 +10,40 @@ export function Home() {
 
   function handleAddTask(newTaskTitle: string) {
     //TODO - add new task
+    setTasks(prevState => [
+        ...prevState,
+        {
+          id: Math.random(),
+          title: newTaskTitle,
+          done: false,
+        },
+      ]
+    );
   }
 
   function handleToggleTaskDone(id: number) {
     //TODO - toggle task done if exists
+    const taskAlreadyExists = tasks.find(task => task.id === id);
+
+    if (taskAlreadyExists) {
+      setTasks(prevState => {
+        return prevState.map(task => {
+          if (task.id === id) {
+            return ({
+              ...task,
+              done: !taskAlreadyExists.done,
+            });
+          }
+
+          return task;
+        });
+      });
+    }
   }
 
   function handleRemoveTask(id: number) {
     //TODO - remove task from state
+    setTasks(prevState => prevState.filter(task => task.id !== id));
   }
 
   return (
